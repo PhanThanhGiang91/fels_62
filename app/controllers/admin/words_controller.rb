@@ -11,11 +11,11 @@ class Admin::WordsController < ApplicationController
   def create
     word = Word.new word_params
     if word.save
-      flash[:notice] = t :create_success, scope: :admin_words
+      flash[:success] = t :create_success, scope: :admin_words
       redirect_to admin_word_path word
     else
-      flash[:notice] = t :create_failed, scope: :admin_words
-      redirect_to :back
+      flash[:danger] = t :create_failed, scope: :admin_words
+      redirect_to admin_words_path
     end
   end
 
@@ -25,21 +25,21 @@ class Admin::WordsController < ApplicationController
 
   def update
     if @word.update_attributes word_params
-      flash[:notice] = t :update_success, scope: :admin_words
+      flash[:success] = t :update_success, scope: :admin_words
       redirect_to admin_words_path
     else
-      flash[:notice] = t :update_failed, scope: :admin_words
-      redirect_to :back
+      flash[:danger] = t :update_failed, scope: :admin_words
+      redirect_to admin_words_path
     end
   end
 
   def destroy
     if @word.destroy
-      flash[:notice] = t :delete_success, scope: :admin_words
+      flash[:success] = t :delete_success, scope: :admin_words
       redirect_to admin_words_path
     else
-      flash[:notice] = t :delete_failed, scope: :admin_words
-      redirect_to :back
+      flash[:danger] = t :delete_failed, scope: :admin_words
+      redirect_to admin_words_path
     end
   end
 
@@ -50,5 +50,6 @@ class Admin::WordsController < ApplicationController
 
   def set_word
     @word = Word.find params[:id] rescue nil
+    redirect_to admin_words_path unless @word
   end
 end
